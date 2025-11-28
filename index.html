@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>智慧农业监测终端</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <h1>智慧农业监测终端</h1>
+    </div>
+    <div class="header-right">
+      <div class="connection-status" id="connectionStatus">
+        <span class="status-dot" id="statusDot"></span>
+        <span class="status-text" id="statusText">未连接</span>
+      </div>
+      <div class="user-info" id="userInfo">
+        <span class="user-avatar">👤</span>
+        <span class="user-name" id="userNickname">--</span>
+        <button id="logoutBtn" class="logout-btn">退出登录</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="cards">
+      <div class="card">
+        <h2><span class="icon">🧪</span>温度</h2>
+        <div class="value" id="tempVal">-- °C</div>
+      </div>
+      <div class="card">
+        <h2><span class="icon">💧</span>湿度</h2>
+        <div class="value" id="humVal">-- %</div>
+      </div>
+      <div class="card">
+        <h2><span class="icon">☀️</span>光照</h2>
+        <div class="value" id="lightVal">--</div>
+      </div>
+      <div class="card">
+        <h2><span class="icon">😊</span>继电器</h2>
+        <div class="value" id="relayVal">--</div>
+      </div>
+    </section>
+
+    <section class="controls">
+      <div class="control-group">
+        <label><span class="icon">⚙️</span>模式</label>
+        <button id="autoOn">自动</button>
+        <button id="autoOff">手动</button>
+      </div>
+      <div class="control-group">
+        <label><span class="icon">😊</span>继电器</label>
+        <button id="relayOn">开启</button>
+        <button id="relayOff">关闭</button>
+      </div>
+      <div class="control-group">
+        <label for="humThr"><span class="icon">📏</span>湿度阈值</label>
+        <input type="range" id="humThr" min="20" max="90" value="45">
+        <span id="humThrVal">45%</span>
+        <button id="humThrConfirm">确认阈值</button>
+      </div>
+    </section>
+
+    <section class="charts">
+      <div class="chart-card">
+        <h3>温度变化</h3>
+        <div class="chart-row">
+          <canvas id="tempChart" width="600" height="200" class="chart-canvas"></canvas>
+          <div class="chart-side">
+            <div class="stat"><span>当前</span><span id="tempNow">--</span></div>
+            <div class="stat"><span>最小</span><span id="tempMin">--</span></div>
+            <div class="stat"><span>最大</span><span id="tempMax">--</span></div>
+            <div class="stat"><span>平均</span><span id="tempAvg">--</span></div>
+            <div class="stat"><span>舒适度</span><span id="tempComfort">--</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>湿度变化</h3>
+        <div class="chart-row">
+          <canvas id="humChart" width="600" height="200" class="chart-canvas"></canvas>
+          <div class="chart-side">
+            <div class="stat"><span>当前</span><span id="humNow">--</span></div>
+            <div class="stat"><span>最小</span><span id="humMin">--</span></div>
+            <div class="stat"><span>最大</span><span id="humMax">--</span></div>
+            <div class="stat"><span>平均</span><span id="humAvg">--</span></div>
+            <div class="stat"><span>阈值</span><span id="humThrStat">--</span></div>
+            <div class="stat"><span>模式</span><span id="autoStat">--</span></div>
+            <div class="stat"><span>继电器</span><span id="relayStat">--</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>光照变化</h3>
+        <div class="chart-row">
+          <canvas id="lightChart" width="600" height="200" class="chart-canvas"></canvas>
+          <div class="chart-side">
+            <div class="stat"><span>当前</span><span id="lightNow">--</span></div>
+            <div class="stat"><span>最小</span><span id="lightMin">--</span></div>
+            <div class="stat"><span>最大</span><span id="lightMax">--</span></div>
+            <div class="stat"><span>平均</span><span id="lightAvg">--</span></div>
+            <div class="stat"><span>亮度</span><span id="lightPercent">--</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <small>智慧农业监测系统 - <span id="footerStatus">等待连接...</span></small>
+  </footer>
+
+  <script src="main.js"></script>
+  <script>
+    // 登录检查
+    (function() {
+      const user = localStorage.getItem('user');
+      const token = localStorage.getItem('token');
+      
+      // 必须同时有user和token才算已登录
+      if (!user || !token) {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      try {
+        const userObj = JSON.parse(user);
+        document.getElementById('userNickname').textContent = userObj.nickname || userObj.username;
+      } catch(e) {
+        // 解析失败，清除并跳转
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        window.location.href = 'login.html';
+        return;
+      }
+      
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        window.location.href = 'login.html?logout=1';
+      });
+    })();
+  </script>
+</body>
+</html>

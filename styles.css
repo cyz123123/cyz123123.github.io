@@ -1,0 +1,119 @@
+:root{
+  --bg:#0f1f0f; --card:#192a19; --accent:#4caf50; --text:#e6ffe6; --muted:#9fbf9f;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"PingFang SC","Microsoft YaHei",sans-serif;background:linear-gradient(180deg,#082d0d,#0f1f0f);color:var(--text)}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:linear-gradient(90deg,#0b3a15,#135022);border-bottom:1px solid #0b3a15;position:sticky;top:0;z-index:100}
+.header-left{display:flex;align-items:center}
+.header-right{display:flex;align-items:center;gap:20px}
+h1{margin:0;font-size:20px;letter-spacing:2px}
+.serial-actions{display:flex;gap:8px}
+button{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 12px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+button[disabled]{opacity:.6;cursor:not-allowed}
+button.active{filter:brightness(1.25);box-shadow:0 0 12px rgba(76,175,80,.7)}
+main{max-width:1000px;margin:24px auto;padding:0 16px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid #1f3b1f;border-radius:12px;padding:16px}
+.card h2{margin:0 0 8px 0;color:var(--muted);font-weight:600}
+.value{font-size:32px;font-weight:700}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:24px}
+.control-group{background:var(--card);border:1px solid #1f3b1f;border-radius:12px;padding:16px;display:flex;align-items:center;gap:12px}
+label{color:var(--muted)}
+input[type=range]{width:160px}
+.charts{display:grid;grid-template-columns:1fr;gap:16px;margin-top:24px}
+.chart-card{background:var(--card);border:1px solid #1f3b1f;border-radius:12px;padding:16px}
+.chart-card h3{margin:0 0 8px 0;color:var(--muted);font-weight:600}
+.chart-row{display:grid;grid-template-columns:minmax(300px,1fr) 240px;gap:12px;align-items:start}
+.chart-canvas{width:100%;height:auto}
+.chart-side{background:#0b1a0b;border:1px solid #1f3b1f;border-radius:10px;padding:12px}
+.stat{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px dashed #1f3b1f}
+.stat:last-child{border-bottom:none}
+.stat span:last-child{font-weight:700;color:#e6ffe6}
+.stat span:first-child{color:#9fbf9f}
+.stat.accent span:last-child{color:#4caf50}
+.stat.warn span:last-child{color:#ff7043}
+.stat.badge{display:inline-block;padding:2px 6px;border-radius:6px;background:#1f3b1f;color:#9fbf9f;margin-left:6px}
+.icon{margin-right:6px}
+footer{padding:16px;text-align:center;color:var(--muted)}
+
+/* 用户信息样式 */
+.user-info{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:6px 12px;
+  background:rgba(0,0,0,0.2);
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.1);
+}
+.user-avatar{
+  font-size:18px;
+  width:28px;
+  height:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#4caf50,#2e7d32);
+  border-radius:50%;
+}
+.user-name{
+  color:var(--text);
+  font-size:14px;
+  font-weight:500;
+  max-width:100px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.logout-btn{
+  background:transparent!important;
+  color:#ff6b6b!important;
+  font-size:12px;
+  padding:4px 10px;
+  border:1px solid #ff6b6b!important;
+  box-shadow:none!important;
+  transition:all 0.2s;
+}
+.logout-btn:hover{
+  background:#ff6b6b!important;
+  color:#fff!important;
+}
+
+/* 连接状态样式 */
+.connection-status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:6px 14px;
+  background:rgba(0,0,0,0.3);
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,0.1);
+}
+.status-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#666;
+  animation:pulse 2s infinite;
+}
+.status-dot.wifi{
+  background:#4fc3f7;
+  box-shadow:0 0 8px #4fc3f7;
+}
+.status-dot.serial{
+  background:#4caf50;
+  box-shadow:0 0 8px #4caf50;
+}
+.status-dot.offline{
+  background:#666;
+  animation:none;
+}
+@keyframes pulse{
+  0%,100%{opacity:1}
+  50%{opacity:0.5}
+}
+.status-text{
+  color:var(--text);
+  font-size:13px;
+  font-weight:500;
+}

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>智慧农业 - 登录</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo-icon {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #34c759 0%, #30d158 100%);
+      border-radius: 15px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      margin-bottom: 15px;
+    }
+
+    .logo h1 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1d1d1f;
+      margin-bottom: 5px;
+    }
+
+    .logo p {
+      font-size: 14px;
+      color: #86868b;
+    }
+
+    .tabs {
+      display: flex;
+      background: #f5f5f7;
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 30px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      border: none;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 500;
+      color: #86868b;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .tab.active {
+      background: #fff;
+      color: #1d1d1f;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container {
+      position: relative;
+    }
+
+    .form {
+      display: none;
+    }
+
+    .form.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #1d1d1f;
+      margin-bottom: 8px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #d2d2d7;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: #0071e3;
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
+    }
+
+    .input-group input::placeholder {
+      color: #86868b;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #0071e3 0%, #0077ed 100%);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 113, 227, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 25px 0;
+      color: #86868b;
+      font-size: 13px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #d2d2d7;
+    }
+
+    .divider span {
+      padding: 0 15px;
+    }
+
+    .message {
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .message.error {
+      background: #fef0f0;
+      color: #ff3b30;
+      border: 1px solid #ffcdd2;
+      display: block;
+    }
+
+    .message.success {
+      background: #f0fdf4;
+      color: #34c759;
+      border: 1px solid #bbf7d0;
+      display: block;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #d2d2d7;
+    }
+
+    .footer p {
+      font-size: 12px;
+      color: #86868b;
+    }
+
+    .footer a {
+      color: #0071e3;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* 响应式 */
+    @media (max-width: 480px) {
+      .card {
+        padding: 30px 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="logo">
+        <div class="logo-icon">🌱</div>
+        <h1>智慧农业监测系统</h1>
+        <p>登录以访问您的监测终端</p>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="login">登录</button>
+        <button class="tab" data-tab="register">注册</button>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <div class="form-container">
+        <!-- 登录表单 -->
+        <form id="loginForm" class="form active">
+          <div class="input-group">
+            <label for="loginUsername">用户名</label>
+            <input type="text" id="loginUsername" placeholder="请输入用户名" required>
+          </div>
+          <div class="input-group">
+            <label for="loginPassword">密码</label>
+            <input type="password" id="loginPassword" placeholder="请输入密码" required>
+          </div>
+          <button type="submit" class="btn btn-primary" id="loginBtn">
+            登录
+          </button>
+        </form>
+
+        <!-- 注册表单 -->
+        <form id="registerForm" class="form">
+          <div class="input-group">
+            <label for="regUsername">用户名</label>
+            <input type="text" id="regUsername" placeholder="4-20个字符" required minlength="4" maxlength="20">
+          </div>
+          <div class="input-group">
+            <label for="regPassword">密码</label>
+            <input type="password" id="regPassword" placeholder="至少6个字符" required minlength="6">
+          </div>
+          <div class="input-group">
+            <label for="regConfirm">确认密码</label>
+            <input type="password" id="regConfirm" placeholder="再次输入密码" required>
+          </div>
+          <div class="input-group">
+            <label for="regNickname">昵称（可选）</label>
+            <input type="text" id="regNickname" placeholder="您的显示名称">
+          </div>
+          <button type="submit" class="btn btn-primary" id="registerBtn">
+            注册
+          </button>
+        </form>
+      </div>
+
+      <div class="footer">
+        <p>© 2024 智慧农业监测系统</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:8080/api';
+    const tabs = document.querySelectorAll('.tab');
+    const forms = document.querySelectorAll('.form');
+    const messageEl = document.getElementById('message');
+
+    // 切换标签
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        tabs.forEach(t => t.classList.remove('active'));
+        forms.forEach(f => f.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById(target + 'Form').classList.add('active');
+        hideMessage();
+      });
+    });
+
+    // 显示消息
+    function showMessage(text, type) {
+      messageEl.textContent = text;
+      messageEl.className = 'message ' + type;
+    }
+
+    function hideMessage() {
+      messageEl.className = 'message';
+    }
+
+    // 设置按钮加载状态
+    function setLoading(btn, loading) {
+      if (loading) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading"></span>处理中...';
+      } else {
+        btn.disabled = false;
+        btn.textContent = btn.id === 'loginBtn' ? '登录' : '注册';
+      }
+    }
+
+    // 登录
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('loginBtn');
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      if (!username || !password) {
+        showMessage('请填写用户名和密码', 'error');
+        return;
+      }
+
+      setLoading(btn, true);
+      hideMessage();
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          showMessage('登录成功，正在跳转...', 'success');
+          // 保存登录信息
+          localStorage.setItem('user', JSON.stringify(data.user));
+          localStorage.setItem('token', data.token || '');
+          // 跳转到主页
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 1000);
+        } else {
+          showMessage(data.message || '登录失败', 'error');
+        }
+      } catch (err) {
+        showMessage('无法连接服务器，请确保后端已启动', 'error');
+      } finally {
+        setLoading(btn, false);
+      }
+    });
+
+    // 注册
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('registerBtn');
+      const username = document.getElementById('regUsername').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const confirm = document.getElementById('regConfirm').value;
+      const nickname = document.getElementById('regNickname').value.trim();
+
+      if (!username || !password) {
+        showMessage('请填写用户名和密码', 'error');
+        return;
+      }
+
+      if (password !== confirm) {
+        showMessage('两次输入的密码不一致', 'error');
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessage('密码至少需要6个字符', 'error');
+        return;
+      }
+
+      setLoading(btn, true);
+      hideMessage();
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password, nickname })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          showMessage('注册成功！请登录', 'success');
+          // 切换到登录标签
+          setTimeout(() => {
+            tabs[0].click();
+            document.getElementById('loginUsername').value = username;
+          }, 1500);
+        } else {
+          showMessage(data.message || '注册失败', 'error');
+        }
+      } catch (err) {
+        showMessage('无法连接服务器，请确保后端已启动', 'error');
+      } finally {
+        setLoading(btn, false);
+      }
+    });
+
+    // 页面加载时清除之前的登录状态，要求重新登录
+    window.addEventListener('load', () => {
+      // 清除旧的登录信息，强制用户重新登录
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+    });
+  </script>
+</body>
+</html>
